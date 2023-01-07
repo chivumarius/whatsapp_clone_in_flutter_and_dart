@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:whatsapp_flutter/colors.dart';
 import 'package:whatsapp_flutter/common/widgets/custom_button.dart';
@@ -19,11 +20,27 @@ class _LoginScreenState extends State<LoginScreen> {
   // ♦ Controller:
   final phoneController = TextEditingController();
 
+  // ♦ Variable:
+  Country? country;
+
   // ♦ The "dispose()" Method:
   @override
   void dispose() {
     super.dispose();
     phoneController.dispose();
+  }
+
+  // ♦ The "pickCountry()" Method
+  //   → in which we Use the "country_picker" Package:
+  void pickCountry() {
+    // ♦ Calling the Function:
+    showCountryPicker(
+        context: context,
+        onSelect: (Country country) {
+          setState(() {
+            country = country;
+          });
+        });
   }
 
   // ♦ The "build()" Method:
@@ -45,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
 
-              // ♦ Scren Title:
+              // ♦ Screen Title:
               const Text('WhatsApp will need to verify your phone number.'),
 
               // ♦ Vertical "Spacing":
@@ -53,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // ♦ "Pick Country" Button:
               TextButton(
-                onPressed: () {},
+                onPressed: pickCountry,
                 child: const Text('Pick Country'),
               ),
 
@@ -63,8 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
               // ♦ "Phone Number":
               Row(
                 children: [
+
                   // ♦ "Country Code":
-                  const Text('+40'),
+                  if (country != null) Text('+${country!.phoneCode}'),
+
 
                   // ♦ Horizontal "Spacing":
                   const SizedBox(width: 10),
