@@ -36,9 +36,9 @@ class _LoginScreenState extends State<LoginScreen> {
     // ♦ Calling the Function:
     showCountryPicker(
         context: context,
-        onSelect: (Country country) {
+        onSelect: (Country _country) {
           setState(() {
-            country = country;
+            country = _country;
           });
         });
   }
