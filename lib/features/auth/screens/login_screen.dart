@@ -1,10 +1,12 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_flutter/colors.dart';
+import 'package:whatsapp_flutter/common/utils/utils.dart';
 import 'package:whatsapp_flutter/common/widgets/custom_button.dart';
+import 'package:whatsapp_flutter/features/auth/controller/auth_controller.dart';
 
-
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   // ♦ Constant:
   static const routeName = '/login-screen';
 
@@ -12,11 +14,10 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   // ♦ Controller:
   final phoneController = TextEditingController();
 
@@ -43,6 +44,22 @@ class _LoginScreenState extends State<LoginScreen> {
         });
   }
 
+  // ♦ The "sendPhoneNumber()" Method
+  void sendPhoneNumber() {
+    String phoneNumber = phoneController.text.trim();
+
+    // ♦ Checking:
+    if (country != null && phoneNumber.isNotEmpty) {
+      // ♦♦ Provider "ref" → makes "Provider" to "Interact" with a "Provider".
+      // ♦♦ Widget "ref" → makes "Widget" to "Interact" with "Provider".
+      ref
+          .read(authControllerProvider)
+          .signInWithPhone(context, '+${country!.phoneCode}$phoneNumber');
+    } else {
+      showSnackBar(context: context, content: 'Fill out all the fields');
+    }
+  }
+
   // ♦ The "build()" Method:
   @override
   Widget build(BuildContext context) {
@@ -61,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               // ♦ Screen Title:
               const Text('WhatsApp will need to verify your phone number.'),
 
@@ -80,10 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
               // ♦ "Phone Number":
               Row(
                 children: [
-
                   // ♦ "Country Code":
                   if (country != null) Text('+${country!.phoneCode}'),
-
 
                   // ♦ Horizontal "Spacing":
                   const SizedBox(width: 10),
@@ -108,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 width: 90,
                 child: CustomButton(
-                  onPressed: (){},
+                  onPressed: sendPhoneNumber,
                   text: 'NEXT',
                 ),
               ),
