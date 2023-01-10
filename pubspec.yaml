@@ -17,6 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   country_picker: ^2.0.19
+  riverpod: ^2.1.3
 
 
 dev_dependencies:
