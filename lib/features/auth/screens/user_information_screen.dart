@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_flutter/common/utils/utils.dart';
+import 'package:whatsapp_flutter/features/auth/controller/auth_controller.dart';
 
-class UserInformationScreen extends StatefulWidget {
 
+class UserInformationScreen extends ConsumerStatefulWidget {
   // ♦ "Route Name":
   static const String routeName = '/user-information';
 
@@ -11,10 +13,10 @@ class UserInformationScreen extends StatefulWidget {
   const UserInformationScreen({Key? key}) : super(key: key);
 
   @override
-  State<UserInformationScreen> createState() => _UserInformationScreenState();
+  ConsumerState<UserInformationScreen> createState() => _UserInformationScreenState();
 }
 
-class _UserInformationScreenState extends State<UserInformationScreen> {
+class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
   // ♦ Controller
   final TextEditingController nameController = TextEditingController();
 
@@ -34,6 +36,23 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
     image = await pickImageFromGallery(context);
     setState(() {});
   }
+
+  // ♦ The "storeUserData()" Method:
+  void storeUserData() async {
+    // ♦ Variable:
+    String name = nameController.text.trim();
+
+    // ♦ Checking:
+    if (name.isNotEmpty) {
+      // ♦ "Save User Data To Firebase":
+      ref.read(authControllerProvider).saveUserDataToFirebase(
+        context,
+        name,
+        image,
+      );
+    }
+  }
+
 
   // ♦ The "build()" Method:
   @override
@@ -105,7 +124,7 @@ class _UserInformationScreenState extends State<UserInformationScreen> {
 
                   // ♦ "Done" Icon Button:
                   IconButton(
-                    onPressed: (){},
+                    onPressed: storeUserData,
                     icon: const Icon(
                       Icons.done,
                     ),
