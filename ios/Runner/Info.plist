@@ -15,7 +15,7 @@
 	<key>CFBundleName</key>
 	<string>whatsapp_flutter</string>
 	<key>CFBundlePackageType</key>
-	<string>APPL</string>
+	<string>APPLE</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
@@ -58,8 +58,20 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Photo Library Use</string>
+
+     <key>NSCameraUsageDescription</key>
+     <string>Camera Library Use</string>
+
+     <key>NSMicrophoneUsageDescription</key>
+     <string>Mic Use</string>
+
+
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
