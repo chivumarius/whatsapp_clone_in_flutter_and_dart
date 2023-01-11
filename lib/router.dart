@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp_flutter/common/widgets/error.dart';
 import 'package:whatsapp_flutter/features/auth/screens/login_screen.dart';
 import 'package:whatsapp_flutter/features/auth/screens/otp_screen.dart';
+import 'package:whatsapp_flutter/features/auth/screens/user_information_screen.dart';
 
 // ♦ The "generateRoute()" Function:
 Route<dynamic> generateRoute(RouteSettings settings) {
@@ -24,7 +25,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
         ),
       );
 
-    // (3)  "Error Screen" Default Case:
+    // (3)  "OTP Screen" Case:
+    case UserInformationScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const UserInformationScreen(),
+      );
+
+    // (0)  "Error Screen" Default Case:
     default:
       return MaterialPageRoute(
         builder: (context) => const Scaffold(

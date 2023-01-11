@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_flutter/colors.dart';
+import 'package:whatsapp_flutter/features/auth/controller/auth_controller.dart';
 
-class OTPScreen extends StatefulWidget {
+class OTPScreen extends ConsumerWidget {
 
   // ♦ "Route Name":
   static const String routeName = '/otp-screen';
@@ -12,15 +14,22 @@ class OTPScreen extends StatefulWidget {
   // ♦ Constructor:
   const OTPScreen({Key? key, required this.verificationId}) : super(key: key);
 
-  @override
-  State<OTPScreen> createState() => _OTPScreenState();
-}
 
-class _OTPScreenState extends State<OTPScreen> {
+
+  // ♦ The "verifyOTP()" Method:
+  void verifyOTP(WidgetRef ref, BuildContext context, String userOTP) {
+    // ♦♦ Provider "ref" → makes "Provider" to "Interact" with a "Provider".
+    // ♦♦ Widget "ref" → makes "Widget" to "Interact" with "Provider".
+    ref.read(authControllerProvider).verifyOTP(
+      context,
+      verificationId,
+      userOTP,
+    );
+  }
 
   // ♦ The "build()" Method:
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // ♦ "Media Query":
     final size = MediaQuery.of(context).size;
 
@@ -61,7 +70,13 @@ class _OTPScreenState extends State<OTPScreen> {
                 keyboardType: TextInputType.number,
 
                 // ♦ Functionality on Changed:
-                onChanged: (val) {},
+                onChanged: (val) {
+                  // ♦ Checking:
+                  if (val.length == 6) {
+                    // ♦ Calling the Function:
+                    verifyOTP(ref, context, val.trim());
+                  }
+                },
               ),
             ),
           ],
