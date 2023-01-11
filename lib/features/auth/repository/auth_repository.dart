@@ -32,6 +32,22 @@ class AuthRepository {
   });
 
 
+  // The "getCurrentUserData()" Function:
+  Future<UserModel?> getCurrentUserData() async {
+    // Getting "User Data":
+    var userData =
+    await firestore.collection('users').doc(auth.currentUser?.uid).get();
+
+    // ♦ Variable:
+    UserModel? user;
+
+    // ♦ Checking:
+    if (userData.data() != null) {
+      user = UserModel.fromMap(userData.data()!);
+    }
+    return user;
+  }
+
   // The "signInWithPhone()" Function:
   void signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
